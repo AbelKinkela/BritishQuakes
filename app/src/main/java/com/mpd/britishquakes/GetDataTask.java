@@ -14,16 +14,17 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class GetDataTask extends AsyncTask<String[], Void, ArrayList<ItemClass> > {
+public class GetDataTask extends AsyncTask<String[], Void, ArrayList<ItemClass>> {
 
+    ArrayList<ItemClass> itemList = new ArrayList<>();
+    ItemClass item = new ItemClass();
     private MainActivity activity;
-    ArrayList<ItemClass> itemList=new ArrayList<>();
-    ItemClass item=new ItemClass();
     private String url;
     private XmlPullParserFactory xmlFactoryObject;
     private ProgressDialog pDialog;
 
-    public GetDataTask(){}
+    public GetDataTask() {
+    }
 
     public GetDataTask(MainActivity activity, String url) {
         this.activity = activity;
@@ -117,17 +118,16 @@ public class GetDataTask extends AsyncTask<String[], Void, ArrayList<ItemClass> 
                                         // Now just get the associated text
                                         String temp = myParser.nextText();
                                         // Do something with text
-                                        item.setLongitude(temp);
-
-                                    }
-                                    else //
-                                        if (myParser.getName().equalsIgnoreCase("geo:long")) {
-                                        // Now just get the associated text
-                                        String temp = myParser.nextText();
-                                        // Do something with text
                                         item.setLatitude(temp);
 
-                                    }
+                                    } else //
+                                        if (myParser.getName().equalsIgnoreCase("geo:long")) {
+                                            // Now just get the associated text
+                                            String temp = myParser.nextText();
+                                            // Do something with text
+                                            item.setLongitude(temp);
+
+                                        }
                 } else if (event == XmlPullParser.END_TAG) {
                     if (myParser.getName().equalsIgnoreCase("item")) {
                         itemList.add(item);
@@ -148,7 +148,10 @@ public class GetDataTask extends AsyncTask<String[], Void, ArrayList<ItemClass> 
         } catch (IOException ae1) {
             Log.e("MyTag", "IO error during parsing");
         }
-
+        if(itemList==null){
+            itemList.add(new ItemClass());
+            return itemList;
+        }
         return itemList;
     }
 

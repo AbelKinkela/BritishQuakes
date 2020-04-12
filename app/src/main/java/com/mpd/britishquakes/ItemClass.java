@@ -10,8 +10,9 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ItemClass{
+public class ItemClass implements Serializable{
     private Date pubDate;
+    private String stringPubDate;
     private String title;
     private String description;
     private String location;
@@ -21,51 +22,11 @@ public class ItemClass{
     private String longitude;
     private String latitude;
 
-/*    public ItemClass(Parcel parcel){
-        pubDate=parcel.readString();
-        title=parcel.readString();
-        description=parcel.readString();
-        location=parcel.readString();
-        magnitude=parcel.readString();
-        depth=parcel.readString();
-        link=parcel.readString();
-        longitude=parcel.readString();
-        latitude=parcel.readString();
-    }
-    public static final Parcelable.Creator<ItemClass> CREATOR = new Parcelable.Creator<ItemClass>() {
-        @Override
-        public ItemClass createFromParcel(Parcel parcel) {
-            return new ItemClass(parcel);
-        }
 
-        @Override
-        public ItemClass[] newArray(int size) {
-            return new ItemClass[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return hashCode();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(pubDate);
-        dest.writeString(title);
-        dest.writeString(description);
-        dest.writeString(location);
-        dest.writeString(magnitude);
-        dest.writeString(depth);
-        dest.writeString(link);
-        dest.writeString(longitude);
-        dest.writeString(latitude);
-
-    }*/
 
     public ItemClass() {
         pubDate = null;
-        title = "";
+        title = "Check your connection and try again!";
         description = "";
         link = "";
         longitude = "";
@@ -89,6 +50,8 @@ public class ItemClass{
     }
 
     public void setPubDate(String pubDate) {
+        System.out.println(pubDate);
+        setStringPubDate(pubDate);
         try {
             Date aDate = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss").parse(pubDate);
             this.pubDate = aDate;
@@ -98,12 +61,26 @@ public class ItemClass{
 
     }
 
+    public String getStringPubDate() {
+        return stringPubDate;
+    }
+
+    public void setStringPubDate(String pubDate) {
+        this.stringPubDate = pubDate;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+
+        Pattern pattern = Pattern.compile("(:.*?,)");
+        Matcher matcher = pattern.matcher(title);
+        if (matcher.find()) {
+            this.title = clearTitle(matcher.group(1));
+        }
+
     }
 
     public String getDescription() {
@@ -197,5 +174,10 @@ public class ItemClass{
                 getLongitude());
     }
 
+    public String clearTitle(String title){
+        int x= title.length();
+        String newValue =title.substring(2, x-1);
 
+        return newValue;
+    }
 } // End of class

@@ -5,13 +5,9 @@
     <string name="title_top">Top fragment</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string-array name="pizzas">
-        <item>Diavolo</item>
-        <item>Funghi</item>
-    </string-array>
-
-    <string name="home_tab">Home</string>
+    <string name="new_earth_quakes_tab">New Events</string>
     <string name="Old_Earth_quakes_tab">Old Events</string>
+    <string name="event_title">Event Title:</string>
+    <string name="event_date">Date:</string>
 
 </resources>

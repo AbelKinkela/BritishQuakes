@@ -9,5 +9,13 @@
     <string name="Old_Earth_quakes_tab">Old Events</string>
     <string name="event_title">Event Title:</string>
     <string name="event_date">Date:</string>
+    <string name="alert_icon">Alert icon</string>
+    <string name="event_detail_title">Event title:</string>
+    <string name="occurred_on">Occurred on:</string>
+    <string name="location">Location:</string>
+    <string name="magnitude">Magnitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="what_you_need_to_know">What you need to know</string>
 
 </resources>

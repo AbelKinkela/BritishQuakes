@@ -13,10 +13,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".EarthQuakeDetail"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity
-            android:name=".SearchActivity"
-            android:label="@string/app_bar_search_title"></activity>
+            android:parentActivityName=".MainActivity">
+            <intent-filter android:label="@string/app_bar_search_title">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

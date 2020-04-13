@@ -1,11 +1,11 @@
+/*
+Author: Abel Makanzu Kinkela
+Student ID: S1803438
+ */
 package com.mpd.britishquakes;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -46,26 +46,6 @@ public class MainActivity extends AppCompatActivity {
         this.data = itemList;
         initPagerAdapterAndTabLayout(data);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this will add items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.app_bar_search:
-                //Code to run when the Create Order item is clicked
-                Intent intent = new Intent(this, SearchActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public void initPagerAdapterAndTabLayout(ArrayList<ItemClass> items) {
@@ -136,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
+/*    @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
@@ -147,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             new GetDataTask(this, url).execute();
         }
 
-    }
+    }*/
 
     @Override
     protected void onResume() {

@@ -1,3 +1,7 @@
+/*
+Author: Abel Makanzu Kinkela
+Student ID: S1803438
+ */
 package com.mpd.britishquakes;
 
 import android.content.Intent;
@@ -9,8 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +29,7 @@ import java.util.LinkedList;
 public class EarthQuakeFragment extends Fragment {
 
 LinkedList<ItemClass> items = new LinkedList<>();
-
+    CaptionedItemAdapter adapter;
     String[] itemTitles;
     Date[] itemDates;
     ArrayList<ItemClass> newEventsList;
@@ -46,6 +54,7 @@ LinkedList<ItemClass> items = new LinkedList<>();
 
         RecyclerView itemRecycler = (RecyclerView)inflater.inflate(
                 R.layout.fragment_earth_quakes, container, false);
+        setHasOptionsMenu(true);
         if (savedInstanceState != null) {
             parcelableItem=savedInstanceState.getParcelable("data");
             newEventsList=parcelableItem.arrayList;
@@ -54,10 +63,8 @@ LinkedList<ItemClass> items = new LinkedList<>();
             parcelableItem = getArguments().getParcelable("items");
             newEventsList= parcelableItem.arrayList;
         }
-        String[] itemTitles=Helper.getItemTitles(newEventsList);
-        String[] itemDates=Helper.getItemDates(newEventsList);
 
-        CaptionedItemAdapter adapter = new CaptionedItemAdapter(itemTitles, itemDates);
+        adapter = new CaptionedItemAdapter(newEventsList);
         itemRecycler.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -91,6 +98,39 @@ LinkedList<ItemClass> items = new LinkedList<>();
         if (savedInstanceState != null) {
             parcelableItem=savedInstanceState.getParcelable("data");
             newEventsList=parcelableItem.arrayList;
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        final MenuItem searchItem=menu.findItem(R.id.app_bar_search);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.app_bar_search:
+                SearchView searchView = (SearchView) item.getActionView();
+                searchView.setIconifiedByDefault(false);
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        adapter.getFilter().filter(newText);
+                        return true;
+                    }
+                });
+
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

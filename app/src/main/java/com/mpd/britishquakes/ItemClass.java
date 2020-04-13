@@ -1,7 +1,8 @@
+/*
+Author: Abel Makanzu Kinkela
+Student ID: S1803438
+ */
 package com.mpd.britishquakes;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -50,7 +51,6 @@ public class ItemClass implements Serializable{
     }
 
     public void setPubDate(String pubDate) {
-        System.out.println(pubDate);
         setStringPubDate(pubDate);
         try {
             Date aDate = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss").parse(pubDate);
@@ -120,7 +120,7 @@ public class ItemClass implements Serializable{
     }
 
     public String getDepth() {
-        return depth;
+        return "Depth: "+depth;
     }
 
     public void setDepth(String depth) {

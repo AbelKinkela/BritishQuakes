@@ -1,3 +1,7 @@
+/*
+Author: Abel Makanzu Kinkela
+Student ID: S1803438
+ */
 package com.mpd.britishquakes;
 
 import java.util.ArrayList;
@@ -9,7 +13,7 @@ public class Helper {
         Date today = new Date();
 
         long daysInMilli = 86400000;
-        long oldEventTime = 90;
+        long oldEventTime = 100;
         ArrayList<ItemClass> events = new ArrayList<>();
         if(type=="new"){
             for (ItemClass itemClass : itemList) {
@@ -21,7 +25,6 @@ public class Helper {
         }else {
             for (ItemClass itemClass : itemList) {
                 long differenceDays = ((today.getTime() - itemClass.getPubDate().getTime()) / daysInMilli);
-                System.out.println("Difference days: " + differenceDays);
                 if (differenceDays > oldEventTime) {
                     events.add(itemClass);
                 }
@@ -31,7 +34,7 @@ public class Helper {
         return events;
     }
 
-    static String[] getItemTitles(ArrayList<ItemClass> newEventsList) {
+/*    static String[] getItemTitles(ArrayList<ItemClass> newEventsList) {
         String[] titles= new String[newEventsList.size()];
         int count=0;
         for(ItemClass itemClass: newEventsList){
@@ -49,6 +52,6 @@ public class Helper {
             count++;
         }
         return dates;
-    }
+    }*/
 
 }

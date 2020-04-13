@@ -1,9 +1,14 @@
+/*
+Author: Abel Makanzu Kinkela
+Student ID: S1803438
+ */
 package com.mpd.britishquakes;
 
-import android.graphics.Camera;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,20 +17,15 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import android.view.View;
 
-import java.util.Date;
+import java.util.ArrayList;
 
-public class CaptionedItemAdapter extends RecyclerView.Adapter<CaptionedItemAdapter.ViewHolder> {
+public class CaptionedItemAdapter extends RecyclerView.Adapter<CaptionedItemAdapter.ViewHolder> implements Filterable {
 
-    String pubDate[];
-    String title[];
-    public LatLng position[];
+    private ArrayList<ItemClass> exampleList;
+    private ArrayList<ItemClass> fullList;
+
     private Listener listener;
 
     interface Listener {
@@ -43,14 +43,21 @@ public class CaptionedItemAdapter extends RecyclerView.Adapter<CaptionedItemAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
-/*        ImageView imageView = (ImageView)cardView.findViewById(R.id.info_image);
-        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imageIds[position]);
+
+        ImageView imageView = (ImageView)cardView.findViewById(R.id.eventImage);
+
+        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), R.drawable.ic_earthquake1);
         imageView.setImageDrawable(drawable);
-        imageView.setContentDescription(captions[position]);*/
+
+        ItemClass itemClass = exampleList.get(position);
         TextView title_textView = (TextView) cardView.findViewById(R.id.title_textView);
-        title_textView.setText(title[position]);
+        title_textView.setText(itemClass.getTitle());
         TextView date_textView = (TextView) cardView.findViewById(R.id.date_textView);
-        date_textView.setText(pubDate[position]);
+        date_textView.setText(itemClass.getStringPubDate());
+        TextView location_textView = (TextView) cardView.findViewById(R.id.location_textView);
+        location_textView.setText(itemClass.getLocation());
+        TextView depth_textView = (TextView) cardView.findViewById(R.id.depth_textView);
+        depth_textView.setText(itemClass.getDepth());
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,8 +71,43 @@ public class CaptionedItemAdapter extends RecyclerView.Adapter<CaptionedItemAdap
 
     @Override
     public int getItemCount() {
-        return title.length;
+        return exampleList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filteredList;
+    }
+
+    private Filter filteredList = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<ItemClass> filtered = new ArrayList<>();
+            if(constraint == null || constraint.length()==0){
+                filtered.addAll(fullList);
+            }else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(ItemClass itemClass : fullList){
+                    if(itemClass.toString().toLowerCase().contains(filterPattern)){
+                        filtered.add(itemClass);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values=filtered;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            exampleList.clear();
+            exampleList.addAll((ArrayList<ItemClass>) results.values);
+            notifyDataSetChanged();
+
+        }
+    };
+
     public void setListener(Listener listener){
         this.listener = listener;
     }
@@ -84,13 +126,13 @@ public class CaptionedItemAdapter extends RecyclerView.Adapter<CaptionedItemAdap
     public void onViewAttachedToWindow(ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-
-
     }
 
-    public CaptionedItemAdapter(String[] title, String[] pubDate) {
-        this.pubDate = pubDate;
-        this.title = title;
+    public CaptionedItemAdapter(ArrayList<ItemClass> exampleList) {
+
+        this.exampleList = exampleList;
+        this.fullList= new ArrayList<>(exampleList);
+
     }
 
 

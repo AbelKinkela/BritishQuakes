@@ -1,3 +1,7 @@
+/*
+Author: Abel Makanzu Kinkela
+Student ID: S1803438
+ */
 package com.mpd.britishquakes;
 
 import android.content.ContentValues;
